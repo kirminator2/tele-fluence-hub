@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar";
+import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Offers from "./pages/Offers";
 import Statistics from "./pages/Statistics";
@@ -27,18 +28,23 @@ const App = () => (
 );
 
 const Layout = () => (
+  <Routes>
+    <Route path="/" element={<Landing />} />
+    <Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
+    <Route path="/offers" element={<DashboardLayout><Offers /></DashboardLayout>} />
+    <Route path="/statistics" element={<DashboardLayout><Statistics /></DashboardLayout>} />
+    <Route path="/links" element={<DashboardLayout><Links /></DashboardLayout>} />
+    <Route path="/finances" element={<DashboardLayout><Finances /></DashboardLayout>} />
+    <Route path="/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>
+);
+
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => (
   <>
     <Sidebar />
     <div className="flex-1 md:ml-64">
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/offers" element={<Offers />} />
-        <Route path="/statistics" element={<Statistics />} />
-        <Route path="/links" element={<Links />} />
-        <Route path="/finances" element={<Finances />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      {children}
     </div>
   </>
 );
