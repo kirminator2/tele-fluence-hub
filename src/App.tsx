@@ -14,31 +14,33 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const Layout = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex min-h-screen">
-    <Sidebar />
-    <main className="flex-1 md:ml-64">{children}</main>
-  </div>
-);
-
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout><Dashboard /></Layout>} />
-          <Route path="/offers" element={<Layout><Offers /></Layout>} />
-          <Route path="/statistics" element={<Layout><Statistics /></Layout>} />
-          <Route path="/links" element={<Layout><Links /></Layout>} />
-          <Route path="/finances" element={<Layout><Finances /></Layout>} />
-          <Route path="/settings" element={<Layout><Settings /></Layout>} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Layout />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
+);
+
+const Layout = () => (
+  <>
+    <Sidebar />
+    <div className="flex-1 md:ml-64">
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/offers" element={<Offers />} />
+        <Route path="/statistics" element={<Statistics />} />
+        <Route path="/links" element={<Links />} />
+        <Route path="/finances" element={<Finances />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </div>
+  </>
 );
 
 export default App;
