@@ -122,36 +122,36 @@
 
   .light {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 222 47% 11%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --card-hover: 240 5% 96%;
+    --card-foreground: 222 47% 11%;
+    --card-hover: 210 20% 98%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 239 84% 67%;
-    --primary-foreground: 240 100% 2%;
-    --primary-glow: 239 100% 75%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 217 100% 70%;
 
-    --secondary: 263 70% 58%;
+    --secondary: 214 95% 55%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-glow: 263 85% 68%;
+    --secondary-glow: 214 100% 65%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 214 32% 96%;
+    --muted-foreground: 215 16% 47%;
 
     --accent: 280 65% 60%;
     --accent-foreground: 0 0% 100%;
-    --accent-glow: 280 75% 68%;
+    --accent-glow: 280 75% 70%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 239 84% 67%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
 
     --chart-1: 239 84% 67%;
     --chart-2: 263 70% 58%;
