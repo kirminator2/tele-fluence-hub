@@ -13,22 +13,36 @@ import {
   Users,
   Bell,
   ChevronRight,
+  Globe,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
-const navigation = [
-  { name: "Дашборд", href: "/dashboard", icon: Home },
-  { name: "Офферы", href: "/offers", icon: Package },
-  { name: "Статистика", href: "/statistics", icon: BarChart3 },
-  { name: "Ссылки", href: "/links", icon: Link2 },
-  { name: "Финансы", href: "/finances", icon: Wallet },
-  { name: "Настройки", href: "/settings", icon: Settings },
-];
+const getNavigation = (t: (key: string) => string, lang: string) => {
+  const prefix = lang === "ru" ? "/ru" : "";
+  return [
+    { name: t("nav.dashboard"), href: `${prefix}/dashboard`, icon: Home },
+    { name: t("nav.offers"), href: `${prefix}/offers`, icon: Package },
+    { name: t("nav.statistics"), href: `${prefix}/statistics`, icon: BarChart3 },
+    { name: t("nav.links"), href: `${prefix}/links`, icon: Link2 },
+    { name: t("nav.finances"), href: `${prefix}/finances`, icon: Wallet },
+    { name: t("nav.settings"), href: `${prefix}/settings`, icon: Settings },
+  ];
+};
 
 export function Sidebar() {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
+  const navigation = getNavigation(t, language);
 
   return (
     <>
@@ -51,11 +65,27 @@ export function Sidebar() {
       >
         <div className="flex h-full flex-col">
           {/* Logo */}
-          <div className="flex h-16 items-center gap-2 border-b border-sidebar-border px-6">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary">
-              <TrendingUp className="h-5 w-5 text-primary-foreground" />
+          <div className="flex h-16 items-center justify-between border-b border-sidebar-border px-6">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-primary">
+                <TrendingUp className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <span className="text-lg font-semibold">TeleAffiliates</span>
             </div>
-            <span className="text-lg font-semibold">TeleAffiliates</span>
+          </div>
+          
+          {/* Language Selector */}
+          <div className="border-b border-sidebar-border px-3 py-2">
+            <Select value={language} onValueChange={(value: "en" | "ru") => setLanguage(value)}>
+              <SelectTrigger className="w-full h-9">
+                <Globe className="h-4 w-4 mr-2" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="ru">Русский</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Navigation */}
@@ -95,7 +125,7 @@ export function Sidebar() {
               </div>
               <div className="flex-1">
                 <p className="text-sm font-medium">Partner #12345</p>
-                <p className="text-xs text-muted-foreground">Уровень: Pro</p>
+                <p className="text-xs text-muted-foreground">{language === "ru" ? "Уровень: Pro" : "Level: Pro"}</p>
               </div>
               <Bell className="h-5 w-5 text-muted-foreground hover:text-primary cursor-pointer transition-colors" />
             </div>

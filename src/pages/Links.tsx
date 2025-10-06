@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Select,
   SelectContent,
@@ -23,6 +24,7 @@ import {
 } from "lucide-react";
 
 export default function Links() {
+  const { t } = useLanguage();
   const [selectedOffer, setSelectedOffer] = useState("");
   const [utmSource, setUtmSource] = useState("");
   const [utmMedium, setUtmMedium] = useState("");
@@ -65,8 +67,8 @@ export default function Links() {
   const generateLink = () => {
     if (!selectedOffer) {
       toast({
-        title: "Ошибка",
-        description: "Выберите оффер для генерации ссылки",
+        title: t("links.error"),
+        description: t("links.error.select"),
         variant: "destructive",
       });
       return;

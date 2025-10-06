@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Search,
   Filter,
@@ -96,6 +97,7 @@ const offers = [
 ];
 
 export default function Offers() {
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [favorites, setFavorites] = useState<number[]>([]);
@@ -104,8 +106,8 @@ export default function Offers() {
     const link = `https://tg.afflink.com/ref/12345/offer/${offerId}`;
     navigator.clipboard.writeText(link);
     toast({
-      title: "Ссылка скопирована",
-      description: "Партнерская ссылка скопирована в буфер обмена",
+      title: t("offers.link.copied"),
+      description: t("offers.link.copied.desc"),
     });
   };
 
@@ -129,14 +131,14 @@ export default function Offers() {
       <div className="border-b border-border bg-card/50 backdrop-blur-sm">
         <div className="flex h-16 items-center justify-between px-6">
           <div>
-            <h1 className="text-2xl font-bold">Офферы</h1>
+            <h1 className="text-2xl font-bold">{t("offers.title")}</h1>
             <p className="text-sm text-muted-foreground">
-              Каталог доступных предложений
+              {t("offers.subtitle")}
             </p>
           </div>
           <Button variant="gradient">
             <Star className="h-4 w-4" />
-            Избранные ({favorites.length})
+            {t("offers.favorites")} ({favorites.length})
           </Button>
         </div>
       </div>
@@ -147,7 +149,7 @@ export default function Offers() {
           <div className="relative flex-1 min-w-[200px] max-w-md">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
-              placeholder="Поиск офферов..."
+              placeholder={t("offers.search")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -155,20 +157,20 @@ export default function Offers() {
           </div>
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Категория" />
+              <SelectValue placeholder={t("offers.category")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Все категории</SelectItem>
-              <SelectItem value="Боты">Боты</SelectItem>
-              <SelectItem value="Аналитика">Аналитика</SelectItem>
-              <SelectItem value="AI">AI</SelectItem>
-              <SelectItem value="Продвижение">Продвижение</SelectItem>
-              <SelectItem value="Автоматизация">Автоматизация</SelectItem>
+              <SelectItem value="all">{t("offers.all.categories")}</SelectItem>
+              <SelectItem value="Боты">{t("offers.bots")}</SelectItem>
+              <SelectItem value="Аналитика">{t("offers.analytics")}</SelectItem>
+              <SelectItem value="AI">{t("offers.ai")}</SelectItem>
+              <SelectItem value="Продвижение">{t("offers.promotion")}</SelectItem>
+              <SelectItem value="Автоматизация">{t("offers.automation")}</SelectItem>
             </SelectContent>
           </Select>
           <Button variant="outline">
             <Filter className="h-4 w-4" />
-            Фильтры
+            {t("offers.filters")}
           </Button>
         </div>
       </div>
@@ -231,13 +233,13 @@ export default function Offers() {
                 {/* Metrics */}
                 <div className="mb-4 grid grid-cols-3 gap-2">
                   <div className="rounded-lg bg-muted/50 p-2 text-center">
-                    <p className="text-xs text-muted-foreground">Выплата</p>
+                    <p className="text-xs text-muted-foreground">{t("offers.payout")}</p>
                     <p className="text-sm font-semibold text-success">
                       {offer.payout}
                     </p>
                   </div>
                   <div className="rounded-lg bg-muted/50 p-2 text-center">
-                    <p className="text-xs text-muted-foreground">EPC</p>
+                    <p className="text-xs text-muted-foreground">{t("offers.epc")}</p>
                     <p className="text-sm font-semibold">{offer.epc}</p>
                   </div>
                   <div className="rounded-lg bg-muted/50 p-2 text-center">
@@ -270,7 +272,7 @@ export default function Offers() {
                     onClick={() => handleCopyLink(offer.id)}
                   >
                     <Copy className="h-4 w-4" />
-                    Получить ссылку
+                    {t("offers.get.link")}
                   </Button>
                   <Button variant="outline" size="sm">
                     <ExternalLink className="h-4 w-4" />

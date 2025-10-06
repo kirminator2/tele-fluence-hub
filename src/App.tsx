@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Sidebar } from "./components/Sidebar";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import { translations } from "./locales/translations";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Offers from "./pages/Offers";
@@ -21,7 +23,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout />
+        <LanguageProvider translations={translations}>
+          <Layout />
+        </LanguageProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
@@ -29,6 +33,7 @@ const App = () => (
 
 const Layout = () => (
   <Routes>
+    {/* English routes */}
     <Route path="/" element={<Landing />} />
     <Route path="/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
     <Route path="/offers" element={<DashboardLayout><Offers /></DashboardLayout>} />
@@ -36,6 +41,16 @@ const Layout = () => (
     <Route path="/links" element={<DashboardLayout><Links /></DashboardLayout>} />
     <Route path="/finances" element={<DashboardLayout><Finances /></DashboardLayout>} />
     <Route path="/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
+    
+    {/* Russian routes */}
+    <Route path="/ru" element={<Landing />} />
+    <Route path="/ru/dashboard" element={<DashboardLayout><Dashboard /></DashboardLayout>} />
+    <Route path="/ru/offers" element={<DashboardLayout><Offers /></DashboardLayout>} />
+    <Route path="/ru/statistics" element={<DashboardLayout><Statistics /></DashboardLayout>} />
+    <Route path="/ru/links" element={<DashboardLayout><Links /></DashboardLayout>} />
+    <Route path="/ru/finances" element={<DashboardLayout><Finances /></DashboardLayout>} />
+    <Route path="/ru/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
+    
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
