@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { LandingHeader } from "@/components/LandingHeader";
 import {
   ArrowRight,
   TrendingUp,
@@ -73,6 +74,8 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
+      <LandingHeader />
+      
       {/* Hero Section with Slider */}
       <section className="relative overflow-hidden border-b border-border/40 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4 py-20 md:py-32">
@@ -152,7 +155,7 @@ export default function Landing() {
       </section>
 
       {/* Benefits Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section id="benefits" className="container mx-auto px-4 py-20">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
             {t("landing.benefits.title")}
@@ -296,7 +299,7 @@ export default function Landing() {
       </section>
 
       {/* Testimonials */}
-      <section className="container mx-auto px-4 py-20">
+      <section id="testimonials" className="container mx-auto px-4 py-20">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
             {t("landing.testimonials.title")}

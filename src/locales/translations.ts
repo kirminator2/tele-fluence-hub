@@ -1,5 +1,11 @@
 export const translations = {
   en: {
+    // Landing Navigation
+    "landing.nav.services": "Services",
+    "landing.nav.benefits": "Benefits",
+    "landing.nav.testimonials": "Testimonials",
+    "landing.nav.login": "Login",
+    
     // Navigation
     "nav.dashboard": "Dashboard",
     "nav.offers": "Offers",
@@ -180,6 +186,12 @@ export const translations = {
     "common.language": "Language",
   },
   ru: {
+    // Landing Navigation
+    "landing.nav.services": "Сервисы",
+    "landing.nav.benefits": "Преимущества",
+    "landing.nav.testimonials": "Отзывы",
+    "landing.nav.login": "Войти",
+    
     // Navigation
     "nav.dashboard": "Дашборд",
     "nav.offers": "Офферы",
