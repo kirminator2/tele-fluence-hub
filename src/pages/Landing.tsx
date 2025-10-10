@@ -7,40 +7,33 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { LandingHeader } from "@/components/LandingHeader";
 import {
   ArrowRight,
-  TrendingUp,
   Users,
-  BarChart3,
-  Zap,
-  Shield,
-  Globe,
-  Sparkles,
-  ChevronRight,
-  CheckCircle,
-  Rocket,
-  Target,
   DollarSign,
-  MessageSquare,
+  Target,
+  BarChart3,
+  Rocket,
+  ShoppingBag,
+  MessagesSquare,
   Bot,
-  Brain,
-  ChartBar,
+  Cloud,
+  LineChart,
+  Megaphone,
   UserCheck,
   Network,
-  Briefcase,
-  ShoppingBag,
-  Cloud,
-  MessagesSquare,
-  Layers,
+  Sparkles,
   ChevronLeft,
-  Store,
+  ChevronRight,
+  Zap,
+  TrendingUp,
+  Globe,
+  Layers,
   BrainCircuit,
-  Megaphone,
-  LineChart,
-  Share2,
 } from "lucide-react";
 
 export default function Landing() {
   const { language, t } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [hoveredService, setHoveredService] = useState<number | null>(null);
   
   const slides = [
     {
@@ -70,37 +63,79 @@ export default function Landing() {
     return () => clearInterval(timer);
   }, []);
 
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
   const dashboardPath = language === "ru" ? "/ru/dashboard" : "/dashboard";
 
+  const services = [
+    { icon: ShoppingBag, name: t("landing.service1.name"), desc: t("landing.service1.desc"), gradient: "from-cyan-500 via-blue-500 to-cyan-600" },
+    { icon: MessagesSquare, name: t("landing.service2.name"), desc: t("landing.service2.desc"), gradient: "from-blue-500 via-purple-500 to-blue-600" },
+    { icon: Bot, name: t("landing.service3.name"), desc: t("landing.service3.desc"), gradient: "from-emerald-500 via-teal-500 to-emerald-600" },
+    { icon: Cloud, name: t("landing.service4.name"), desc: t("landing.service4.desc"), gradient: "from-orange-500 via-red-500 to-orange-600" },
+    { icon: LineChart, name: t("landing.service5.name"), desc: t("landing.service5.desc"), gradient: "from-pink-500 via-rose-500 to-pink-600" },
+    { icon: Megaphone, name: t("landing.service6.name"), desc: t("landing.service6.desc"), gradient: "from-cyan-500 via-sky-500 to-cyan-600" },
+    { icon: UserCheck, name: t("landing.service7.name"), desc: t("landing.service7.desc"), gradient: "from-red-500 via-orange-500 to-red-600" },
+    { icon: Network, name: t("landing.service8.name"), desc: t("landing.service8.desc"), gradient: "from-indigo-500 via-violet-500 to-indigo-600" },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 bg-gradient-mesh opacity-60 pointer-events-none" />
+      <div className="fixed inset-0 tech-grid opacity-30 pointer-events-none" />
+      
       <LandingHeader />
       
-      {/* Hero Section with Slider */}
-      <section className="relative overflow-hidden border-b border-border/40 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-        <div className="container mx-auto px-4 py-20 md:py-32">
+      {/* Hero Section - Arc Reactor Style */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-primary/20">
+        {/* Glowing Orbs */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-primary/30 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/20 rounded-full blur-[120px] animate-pulse animation-delay-300" />
+        
+        <div className="container relative z-10 mx-auto px-4 py-20">
           <div className="relative">
-            {/* Slider */}
-            <div className="mb-12 text-center">
-              <div className="relative h-64 md:h-48">
+            {/* Carousel with Arrows */}
+            <div className="mb-16 text-center relative">
+              {/* Navigation Arrows */}
+              <button
+                onClick={prevSlide}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-primary/10 border-2 border-primary/30 hover:bg-primary/20 hover:border-primary hover:scale-110 transition-all duration-300 group backdrop-blur-sm shadow-neon"
+              >
+                <ChevronLeft className="w-8 h-8 text-primary group-hover:text-primary-glow" />
+              </button>
+              
+              <button
+                onClick={nextSlide}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-primary/10 border-2 border-primary/30 hover:bg-primary/20 hover:border-primary hover:scale-110 transition-all duration-300 group backdrop-blur-sm shadow-neon"
+              >
+                <ChevronRight className="w-8 h-8 text-primary group-hover:text-primary-glow" />
+              </button>
+
+              <div className="relative h-80 md:h-64 px-16">
                 {slides.map((slide, index) => (
                   <div
                     key={index}
-                    className={`absolute inset-0 transition-opacity duration-500 ${
-                      index === currentSlide ? "opacity-100" : "opacity-0"
+                    className={`absolute inset-0 transition-all duration-700 ${
+                      index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-95"
                     }`}
                   >
-                    <div className="space-y-6">
-                      <Badge variant="outline" className="mb-4 border-primary/30 bg-primary/5">
-                        <Sparkles className="mr-1 h-3 w-3" />
+                    <div className="space-y-8">
+                      <Badge 
+                        variant="outline" 
+                        className="mb-6 border-primary/50 bg-primary/10 text-primary px-6 py-2 text-base backdrop-blur-sm arc-reactor"
+                      >
+                        <Sparkles className="mr-2 h-5 w-5" />
                         {slide.highlight} {slide.highlightText}
                       </Badge>
-                      <h1 className="text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
-                        <span className="bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent">
+                      
+                      <h1 className="text-5xl font-bold tracking-tight md:text-7xl lg:text-8xl">
+                        <span className="gradient-text inline-block">
                           {slide.title}
                         </span>
                       </h1>
-                      <p className="mx-auto max-w-2xl text-lg text-muted-foreground md:text-xl">
+                      
+                      <p className="mx-auto max-w-3xl text-xl text-foreground/80 md:text-2xl font-light">
                         {slide.subtitle}
                       </p>
                     </div>
@@ -108,14 +143,16 @@ export default function Landing() {
                 ))}
               </div>
 
-              {/* Slider Dots */}
-              <div className="flex justify-center gap-2 mt-8">
+              {/* Enhanced Slider Dots */}
+              <div className="flex justify-center gap-3 mt-12">
                 {slides.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`h-2 rounded-full transition-all ${
-                      index === currentSlide ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30"
+                    className={`h-2 rounded-full transition-all duration-500 ${
+                      index === currentSlide 
+                        ? "w-12 bg-primary shadow-neon" 
+                        : "w-2 bg-primary/30 hover:bg-primary/50"
                     }`}
                   />
                 ))}
@@ -123,241 +160,241 @@ export default function Landing() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Button size="lg" variant="gradient" className="group" asChild>
+            <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-center mb-20">
+              <Button 
+                size="lg" 
+                className="group px-8 py-6 text-lg bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] hover:bg-[position:100%_0] transition-all duration-500 shadow-glow hover:shadow-neon hover:scale-105 energy-beam" 
+                asChild
+              >
                 <Link to={dashboardPath}>
+                  <Zap className="mr-2 h-5 w-5" />
                   {t("landing.hero.cta")}
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-2" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
-                <a href="#services">{t("landing.hero.learn")}</a>
+              
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="px-8 py-6 text-lg border-2 border-primary/50 bg-background/50 backdrop-blur-sm hover:bg-primary/10 hover:border-primary hover:shadow-glow transition-all duration-300" 
+                asChild
+              >
+                <a href="#services">
+                  <Globe className="mr-2 h-5 w-5" />
+                  {t("landing.hero.learn")}
+                </a>
               </Button>
             </div>
 
-            {/* Stats */}
-            <div className="mt-16 grid gap-8 sm:grid-cols-3">
-              <div className="text-center">
-                <div className="mb-2 text-3xl font-bold text-primary">15+</div>
-                <div className="text-sm text-muted-foreground">{language === "ru" ? "Сервисов" : "Services"}</div>
-              </div>
-              <div className="text-center">
-                <div className="mb-2 text-3xl font-bold text-primary">5K+</div>
-                <div className="text-sm text-muted-foreground">{language === "ru" ? "Партнеров" : "Partners"}</div>
-              </div>
-              <div className="text-center">
-                <div className="mb-2 text-3xl font-bold text-primary">$2M+</div>
-                <div className="text-sm text-muted-foreground">{language === "ru" ? "Выплачено" : "Paid Out"}</div>
-              </div>
+            {/* Stats with Arc Reactor Effect */}
+            <div className="grid gap-8 sm:grid-cols-3 max-w-4xl mx-auto">
+              {[
+                { value: "15+", label: language === "ru" ? "Сервисов" : "Services", icon: Layers },
+                { value: "5K+", label: language === "ru" ? "Партнеров" : "Partners", icon: Users },
+                { value: "$2M+", label: language === "ru" ? "Выплачено" : "Paid Out", icon: DollarSign },
+              ].map((stat, idx) => (
+                <div 
+                  key={idx}
+                  className="text-center p-6 rounded-xl bg-card/30 border border-primary/20 backdrop-blur-sm card-hover holo-border"
+                >
+                  <stat.icon className="w-8 h-8 mx-auto mb-3 text-primary" />
+                  <div className="mb-2 text-4xl font-bold gradient-text">{stat.value}</div>
+                  <div className="text-sm text-foreground/70 uppercase tracking-wider">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section id="benefits" className="container mx-auto px-4 py-20">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+      <section id="benefits" className="relative container mx-auto px-4 py-24">
+        <div className="mb-20 text-center">
+          <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl gradient-text">
             {t("landing.benefits.title")}
           </h2>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="group border-border/40 bg-card/50 p-6 backdrop-blur transition-all hover:border-primary/50 hover:shadow-lg">
-            <div className="mb-4 inline-flex rounded-lg bg-gradient-primary p-3">
-              <DollarSign className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold">{t("landing.benefit1.title")}</h3>
-            <p className="text-muted-foreground">{t("landing.benefit1.desc")}</p>
-          </Card>
-
-          <Card className="group border-border/40 bg-card/50 p-6 backdrop-blur transition-all hover:border-primary/50 hover:shadow-lg">
-            <div className="mb-4 inline-flex rounded-lg bg-gradient-primary p-3">
-              <Target className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold">{t("landing.benefit2.title")}</h3>
-            <p className="text-muted-foreground">{t("landing.benefit2.desc")}</p>
-          </Card>
-
-          <Card className="group border-border/40 bg-card/50 p-6 backdrop-blur transition-all hover:border-primary/50 hover:shadow-lg">
-            <div className="mb-4 inline-flex rounded-lg bg-gradient-primary p-3">
-              <BarChart3 className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold">{t("landing.benefit3.title")}</h3>
-            <p className="text-muted-foreground">{t("landing.benefit3.desc")}</p>
-          </Card>
-
-          <Card className="group border-border/40 bg-card/50 p-6 backdrop-blur transition-all hover:border-primary/50 hover:shadow-lg">
-            <div className="mb-4 inline-flex rounded-lg bg-gradient-primary p-3">
-              <Users className="h-6 w-6 text-primary-foreground" />
-            </div>
-            <h3 className="mb-2 text-xl font-semibold">{t("landing.benefit4.title")}</h3>
-            <p className="text-muted-foreground">{t("landing.benefit4.desc")}</p>
-          </Card>
+          {[
+            { icon: DollarSign, title: t("landing.benefit1.title"), desc: t("landing.benefit1.desc") },
+            { icon: Target, title: t("landing.benefit2.title"), desc: t("landing.benefit2.desc") },
+            { icon: BarChart3, title: t("landing.benefit3.title"), desc: t("landing.benefit3.desc") },
+            { icon: Users, title: t("landing.benefit4.title"), desc: t("landing.benefit4.desc") },
+          ].map((benefit, idx) => (
+            <Card 
+              key={idx}
+              className="group relative p-8 border-2 border-primary/20 bg-card/50 backdrop-blur-sm card-hover holo-border overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10">
+                <div className="mb-6 inline-flex rounded-2xl bg-gradient-to-br from-primary to-accent p-4 arc-reactor">
+                  <benefit.icon className="h-8 w-8 text-background" />
+                </div>
+                <h3 className="mb-4 text-2xl font-semibold text-foreground">{benefit.title}</h3>
+                <p className="text-foreground/70 leading-relaxed">{benefit.desc}</p>
+              </div>
+            </Card>
+          ))}
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="border-y border-border/40 bg-muted/30 py-20">
+      {/* Smart Gallery - Services Section */}
+      <section id="services" className="relative border-y border-primary/20 bg-gradient-to-b from-background via-primary/5 to-background py-24">
         <div className="container mx-auto px-4">
-          <div className="mb-16 text-center">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+          <div className="mb-20 text-center">
+            <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl gradient-text">
               {t("landing.services.title")}
             </h2>
+            <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+              {language === "ru" 
+                ? "Передовые технологии для вашего успеха" 
+                : "Cutting-edge technologies for your success"}
+            </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {/* Service 1 - Telegram Store */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 p-3">
-                  <ShoppingBag className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service1.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service1.desc")}</p>
-              </div>
-            </Card>
+          {/* 3D Grid Gallery */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 perspective-1000">
+            {services.map((service, idx) => {
+              const Icon = service.icon;
+              return (
+                <Card
+                  key={idx}
+                  onMouseEnter={() => setHoveredService(idx)}
+                  onMouseLeave={() => setHoveredService(null)}
+                  className={`group relative overflow-hidden border-2 border-primary/30 bg-card/80 backdrop-blur-md card-hover holo-border transition-all duration-700 ${
+                    hoveredService === idx ? "scale-105 z-10" : "scale-100"
+                  }`}
+                  style={{
+                    transformStyle: "preserve-3d",
+                    transform: hoveredService === idx ? "rotateY(5deg) rotateX(5deg)" : "rotateY(0) rotateX(0)",
+                  }}
+                >
+                  {/* Animated gradient background */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-700 blur-xl`} />
+                  
+                  {/* Energy lines */}
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  <div className="relative z-10 p-8">
+                    {/* Icon container with glow */}
+                    <div className={`mb-6 inline-flex rounded-2xl bg-gradient-to-br ${service.gradient} p-4 shadow-lg transition-all duration-500 ${
+                      hoveredService === idx ? "arc-reactor scale-110" : "scale-100"
+                    }`}>
+                      <Icon className="h-8 w-8 text-white" />
+                    </div>
+                    
+                    <h3 className="mb-3 text-2xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                      {service.name}
+                    </h3>
+                    
+                    <p className="text-foreground/70 leading-relaxed">
+                      {service.desc}
+                    </p>
+                    
+                    {/* Tech corner accent */}
+                    <div className="absolute top-2 right-2 w-8 h-8 border-t-2 border-r-2 border-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute bottom-2 left-2 w-8 h-8 border-b-2 border-l-2 border-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
 
-            {/* Service 2 - Multi-Messenger */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-purple-500 to-purple-600 p-3">
-                  <MessagesSquare className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service2.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service2.desc")}</p>
-              </div>
-            </Card>
-
-            {/* Service 3 - Telegram Bots */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-green-500 to-green-600 p-3">
-                  <Bot className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service3.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service3.desc")}</p>
-              </div>
-            </Card>
-
-            {/* Service 4 - Cloud Business Suite */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-orange-500 to-orange-600 p-3">
-                  <Cloud className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service4.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service4.desc")}</p>
-              </div>
-            </Card>
-
-            {/* Service 5 - Channel Analytics */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-pink-500 to-pink-600 p-3">
-                  <LineChart className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service5.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service5.desc")}</p>
-              </div>
-            </Card>
-
-            {/* Service 6 - Auto-Posting System */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-cyan-500 to-cyan-600 p-3">
-                  <Megaphone className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service6.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service6.desc")}</p>
-              </div>
-            </Card>
-
-            {/* Service 7 - Member Management */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-red-500 to-red-600 p-3">
-                  <UserCheck className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service7.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service7.desc")}</p>
-              </div>
-            </Card>
-
-            {/* Service 8 - Integration Platform */}
-            <Card className="group relative overflow-hidden border-border/40 bg-card backdrop-blur transition-all hover:border-primary/50 hover:shadow-xl">
-              <div className="p-6">
-                <div className="mb-4 inline-flex rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-600 p-3">
-                  <Network className="h-6 w-6 text-white" />
-                </div>
-                <h3 className="mb-2 text-xl font-semibold">{t("landing.service8.name")}</h3>
-                <p className="text-sm text-muted-foreground">{t("landing.service8.desc")}</p>
-              </div>
-            </Card>
+                  {/* Particle effect on hover */}
+                  {hoveredService === idx && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      {[...Array(3)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute w-1 h-1 bg-primary rounded-full animate-ping"
+                          style={{
+                            top: `${Math.random() * 100}%`,
+                            left: `${Math.random() * 100}%`,
+                            animationDelay: `${i * 0.2}s`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="container mx-auto px-4 py-20">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+      <section id="testimonials" className="relative container mx-auto px-4 py-24">
+        <div className="mb-20 text-center">
+          <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl gradient-text">
             {t("landing.testimonials.title")}
           </h2>
         </div>
 
         <div className="grid gap-8 md:grid-cols-3">
-          <Card className="border-border/40 bg-card/50 p-6 backdrop-blur">
-            <p className="mb-4 text-muted-foreground">"{t("landing.testimonial1.text")}"</p>
-            <div>
-              <p className="font-semibold">{t("landing.testimonial1.author")}</p>
-              <p className="text-sm text-muted-foreground">{t("landing.testimonial1.role")}</p>
-            </div>
-          </Card>
-
-          <Card className="border-border/40 bg-card/50 p-6 backdrop-blur">
-            <p className="mb-4 text-muted-foreground">"{t("landing.testimonial2.text")}"</p>
-            <div>
-              <p className="font-semibold">{t("landing.testimonial2.author")}</p>
-              <p className="text-sm text-muted-foreground">{t("landing.testimonial2.role")}</p>
-            </div>
-          </Card>
-
-          <Card className="border-border/40 bg-card/50 p-6 backdrop-blur">
-            <p className="mb-4 text-muted-foreground">"{t("landing.testimonial3.text")}"</p>
-            <div>
-              <p className="font-semibold">{t("landing.testimonial3.author")}</p>
-              <p className="text-sm text-muted-foreground">{t("landing.testimonial3.role")}</p>
-            </div>
-          </Card>
+          {[
+            { text: t("landing.testimonial1.text"), author: t("landing.testimonial1.author"), role: t("landing.testimonial1.role") },
+            { text: t("landing.testimonial2.text"), author: t("landing.testimonial2.author"), role: t("landing.testimonial2.role") },
+            { text: t("landing.testimonial3.text"), author: t("landing.testimonial3.author"), role: t("landing.testimonial3.role") },
+          ].map((testimonial, idx) => (
+            <Card 
+              key={idx}
+              className="p-8 border-2 border-primary/20 bg-card/50 backdrop-blur-sm card-hover holo-border"
+            >
+              <div className="mb-6 text-4xl text-primary">"</div>
+              <p className="mb-6 text-foreground/80 leading-relaxed italic">{testimonial.text}</p>
+              <div className="border-t border-primary/20 pt-4">
+                <p className="font-bold text-foreground">{testimonial.author}</p>
+                <p className="text-sm text-foreground/60">{testimonial.role}</p>
+              </div>
+            </Card>
+          ))}
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="border-t border-border/40 bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-5xl">
+      {/* Final CTA - Arc Reactor Powered */}
+      <section className="relative border-t border-primary/20 bg-gradient-to-br from-primary/10 via-background to-accent/10 py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-mesh opacity-40" />
+        
+        <div className="container relative z-10 mx-auto px-4 text-center">
+          <div className="inline-block mb-8 p-4 rounded-full bg-primary/10 border-2 border-primary/30 arc-reactor">
+            <BrainCircuit className="w-16 h-16 text-primary" />
+          </div>
+          
+          <h2 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl gradient-text">
             {t("landing.cta.title")}
           </h2>
-          <p className="mb-8 text-lg text-muted-foreground">
+          
+          <p className="mb-10 text-xl text-foreground/70 max-w-2xl mx-auto">
             {t("landing.cta.subtitle")}
           </p>
-          <Button size="lg" variant="gradient" className="group" asChild>
+          
+          <Button 
+            size="lg" 
+            className="group px-12 py-8 text-xl bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] hover:bg-[position:100%_0] transition-all duration-500 shadow-glow hover:shadow-neon hover:scale-110 energy-beam" 
+            asChild
+          >
             <Link to={dashboardPath}>
+              <Rocket className="mr-3 h-6 w-6" />
               {t("landing.cta.button")}
-              <Rocket className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-2" />
             </Link>
           </Button>
-          <p className="mt-4 text-sm text-muted-foreground">
+          
+          <p className="mt-6 text-sm text-foreground/60">
             {t("landing.cta.login")}
           </p>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 py-8">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2024 TeleAffiliates. {t("landing.footer.rights")}</p>
+      <footer className="relative border-t border-primary/20 py-12 bg-background/80 backdrop-blur-sm">
+        <div className="container mx-auto px-4 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Zap className="w-6 h-6 text-primary" />
+            <span className="text-2xl font-bold gradient-text">TeleAffiliates</span>
+          </div>
+          <p className="text-sm text-foreground/60">
+            © 2024 TeleAffiliates. {t("landing.footer.rights")}
+          </p>
         </div>
       </footer>
     </div>
